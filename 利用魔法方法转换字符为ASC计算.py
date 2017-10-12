@@ -5,7 +5,7 @@ Created on Thu Oct 12 12:22:59 2017
 @author: Tidus
 """
 
-class Nstr(int):
+class Nstr:
     def __init__(self,arg = ''):
         if isinstance(arg,str):
             self.total = 0
