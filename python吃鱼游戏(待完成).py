@@ -42,7 +42,7 @@ class Turtle:
         
     def move(self):
 
-        distance = input('请输入行进方法(1/2)：')
+        distance = input('请输入行进方法(一步或者两步)：')
         direction = input('请输入行进方向：')
         if direction == '上' and distance == '2':
             self.pos[0] -= 2
