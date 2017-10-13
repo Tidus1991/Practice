@@ -113,4 +113,4 @@ while True:
             print('有一条鱼儿被吃掉了...')
             print('鱼儿被吃掉的地点:',pos)
             print('还存活的鱼儿的位置:',fish)
-        
+        Fish.move()
