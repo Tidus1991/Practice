@@ -27,8 +27,9 @@ class SStack():
     def depth(self):
         return len(self.elems)
 
-def suf_exp_evalutor(exp):
+def suf_exp_evalutor():
     operators = '+-*/'
+    exp = input_part()
     st = SStack()
     
     for x in exp:
@@ -55,5 +56,6 @@ def suf_exp_evalutor(exp):
         return st.pop()
     return False
 
-if __name__ == "__main__":
-    print(suf_exp_evalutor(['3','5','-','6','17','4','*','+','*','3','/']))
+def input_part():
+        line = input('Suffix Experssion:')
+        return line.split()
