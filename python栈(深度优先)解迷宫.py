@@ -39,9 +39,7 @@ def print_path(end, pos, st):
     path = []
     path.append(st.pop())
     path.reverse()
-    print('路径为：',path)
-    print('终点为：',end)
-    print('当前位置：',pos)
+    print('路径为：',path + [pos] + [end])
     
 dirs = [(0,1), (1,0), (0,-1), (-1,0)]
 def find_path(maze, start ,end):
