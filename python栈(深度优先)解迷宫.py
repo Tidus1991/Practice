@@ -48,7 +48,7 @@ def find_path(maze, start ,end):
         return
     st = SStack()
     mark(maze, start)
-    st.push(start, 0)
+    st.push((start, 0))
     while not st.is_empty():
         pos, nxt = st.pop()
         for i in range(nxt, 4):
