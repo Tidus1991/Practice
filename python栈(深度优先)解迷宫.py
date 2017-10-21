@@ -30,7 +30,7 @@ class SStack():
         return len(self.elems)
 
 def mark(maze, pos):
-    maze[pos[0]][pos[0]] = 2
+    maze[pos[0]][pos[1]] = 2
     
 def passable(maze, pos):
     return maze[pos[0]][pos[1]] == 0
