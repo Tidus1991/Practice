@@ -58,7 +58,7 @@ def find_path(maze, start ,end):
                 print_path(end, pos ,st)
                 return
             if passable(maze, nextp):
-                st.push(pos, i+1)
+                st.push((pos, i+1))
                 mark(maze, nextp)
                 st.push((nextp, 0))
                 break
