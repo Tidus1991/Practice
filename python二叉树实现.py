@@ -28,10 +28,3 @@ def set_left(btree, left):
     
 def set_right(btree, right):
     btree[2] = right
-
-def traversal(btree): #宽度优先
-    if is_empty(btree):
-        return False
-    print(btree[0], 1)
-    for i in range(1, len(btree)):
-        print(btree[i][0], i+1)
