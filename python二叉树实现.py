@@ -70,7 +70,7 @@ def print_BinTnodes2(t): #后根遍历
     print('('+str(t.data), end='')
     print(')', end='')
     
-def levelorder(t, proc): #宽度优先
+def levelorder(t, proc): #宽度优先遍历
     qu = deque()
     qu.append(t)
     while len(qu):
