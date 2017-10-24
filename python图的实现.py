@@ -26,7 +26,6 @@ class Graph:
     def add_vertex(self):
         raise GraphError('Adj-Matrix does not support "add_vertex".')
         
-        
     def add_edge(self, vi, vj, val=1):
         if self._invalid(vi) or self._invalid(vj):
             raise GraphError(str(vi) + 'or' + str(vj) + 'is not a valid vertex')
@@ -36,3 +35,16 @@ class Graph:
         if self._invalid(vi) or self._invalid(vj):
             raise GraphError(str(vi) + 'or' + str(vj) + 'is not a valid vertex')
         return self._mat[vi][vj]
+    
+    def out_edges(self, vi):
+        if self._invalid(vi):
+            raise GraphError(str(vi) + 'is not a valid vertex')
+        return self._out_edges(self._mat[vi], self._unconn)
+    
+@staticmethod
+def _out_edges(row, unconn):
+    edges = []
+    for i in range (len(row)):
+        if row[i] != unconn:
+            edges.append((i, row[i]))
+    return edges
