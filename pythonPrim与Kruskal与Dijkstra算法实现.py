@@ -49,7 +49,7 @@ def dijkstra_shortest_paths(graph, v0):
     paths = [None]*vnum
     count = 0
     cands = PrioQueue([(0, v0, v0)])
-    while count < vnum and len(cands):
+    while count < vnum and not cands.is_empty():
         plen, u, vmin = cands.dequeue()
         if paths[vmin]:
             continue
