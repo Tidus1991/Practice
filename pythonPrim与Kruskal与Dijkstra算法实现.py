@@ -48,17 +48,49 @@ def dijkstra_shortest_paths(graph, v0):
     assert 0 <= v0 < vnum
     paths = [None]*vnum
     count = 0
-    cands = deque([(0, v0, v0)])
+    cands = PrioQueue([(0, v0, v0)])
     while count < vnum and len(cands):
-        plen, u, vmin = cands.popleft()
+        plen, u, vmin = cands.dequeue()
         if paths[vmin]:
             continue
         paths[vmin] = (u, plen)
         for v, w in graph.out_edges(vmin):
             if not paths[v]:
-                cands.append((plen + w, vmin, v))
+                cands.enqueue((plen + w, vmin, v))
         count += 1
     return paths
+
+
+class PrioQueueError(ValueError):
+    pass
+
+
+class PrioQueue:
+    def __init__(self, elist=[]):
+        self.elems = list(elist)
+        self.elems.sort(reverse=True)
+
+    def enqueue(self, e):
+        i = len(self.elems) - 1
+        while i >= 0:
+            if self.elems[i] > e:
+                i -= 1
+            else:
+                break
+        self.elems.insert(i + 1, e)
+
+    def is_empty(self):
+        return not self.elems
+
+    def peek(self):
+        if self.is_empty():
+            raise PrioQueueError('in top')
+        return self.elems[-1]
+
+    def dequeue(self):
+        if self.is_empty():
+            raise PrioQueueError('in pop')
+        return self.elems.pop()
 
 class Graph:
     def __init__(self, mat, unconn=0):
