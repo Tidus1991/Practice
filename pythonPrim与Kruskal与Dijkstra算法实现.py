@@ -71,7 +71,7 @@ class Graph:
         self._vnum = vnum
 
     def vertex_num(self):
-        return self.vertex_num
+        return self._vnum
 
     def _invalid(self, v):
         return 0 > v or v >= self._vnum
