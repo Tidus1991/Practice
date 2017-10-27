@@ -89,3 +89,15 @@ def preorder_nonrec(t, proc): #深度优先遍历
             s.push(t.right)
             t = t.left
         t = s.pop()
+
+def bt_search(btree, key):
+    bt = btree
+    while bt is not None:
+        entry = bt.data
+        if key < entry.key:
+            bt = bt.right
+        elif key > entry.key:
+            bt = bt.right
+        else:
+            return entry.value
+    return None
