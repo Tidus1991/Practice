@@ -90,14 +90,55 @@ def preorder_nonrec(t, proc): #深度优先遍历
             t = t.left
         t = s.pop()
 
-def bt_search(btree, key): #二叉树上的检索
-    bt = btree
-    while bt is not None:
-        entry = bt.data
-        if key < entry.key:
+class DictBinTree: #二叉排序树(字典)类
+    def __init__(self):
+        self._root = None
+
+    def is_empty(self):
+        return self._root is None
+
+    def serach(self, key):
+        bt = self._root
+        while bt is not None:
+            entry = bt.data
+            if key < entry.key:
+                bt = bt.left
+            elif key > entry.key:
+                bt = bt.right
+            else:
+                return entry.value
+        return None
+
+    def insert(self, key, value):
+        bt = self._root
+        if bt is None:
+            self._root = BinTNode(Assoc(key, value))
+            return
+        while True:
+            entry = bt.data
+            if bt.left is None:
+                bt.left = BinTNode(Assoc(key, value))
+                return
             bt = bt.left
-        elif key > entry.key:
-            bt = bt.right
-        else:
-            return entry.value
-    return None
+            elif key > entry.key:
+                if bt.right is None:
+                    bt.right = BinTNode(Assoc(key, value))
+                    return
+                bt = bt.right
+            else:
+                bt.data.value = value
+                return
+
+    class Assoc:
+        def __init__(self, key, value):
+            self.key = key
+            self.value = value
+
+        def __lt__(self, other):
+            return self.key < other.key
+
+        def __le__(self, other):
+            return self.key < other.key or self.key == other.key
+
+        def __str__(self):
+            return "Assoc({0},{1})".format(self.key, self.value)
