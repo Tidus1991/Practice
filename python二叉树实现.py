@@ -90,12 +90,12 @@ def preorder_nonrec(t, proc): #深度优先遍历
             t = t.left
         t = s.pop()
 
-def bt_search(btree, key):
+def bt_search(btree, key): #二叉树上的检索
     bt = btree
     while bt is not None:
         entry = bt.data
         if key < entry.key:
-            bt = bt.right
+            bt = bt.left
         elif key > entry.key:
             bt = bt.right
         else:
