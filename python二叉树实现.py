@@ -128,6 +128,16 @@ class DictBinTree: #二叉排序树(字典)类
             else:
                 bt.data.value = value
                 return
+            
+    def values(self):
+        t, s = self._root, SStack()
+        while t is not None or not s.is_empty():
+            while t is not None:
+                s.push(t)
+                t = t.left
+            t = s.pop()
+            yield t.data.value
+            t = t.right
 
     class Assoc:
         def __init__(self, key, value):
@@ -142,3 +152,5 @@ class DictBinTree: #二叉排序树(字典)类
 
         def __str__(self):
             return "Assoc({0},{1})".format(self.key, self.value)
+        
+       
