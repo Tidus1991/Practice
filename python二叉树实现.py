@@ -150,7 +150,7 @@ class DictBinTree: #二叉排序树(字典)类
             r = q.left
             while r.right is not None:
                 r = r.right
-            r.right - q.right
+            r.right = q.right
             if p is None:
                 self._root = q.left
             elif p.left is q:
