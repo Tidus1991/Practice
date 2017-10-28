@@ -128,7 +128,40 @@ class DictBinTree: #二叉排序树(字典)类
             else:
                 bt.data.value = value
                 return
-            
+    def delete(self, key):
+        p, q = None, self._root
+        while q is not None and q.data.key != key:
+            p = q
+            if key < q.data.key:
+                q = q.left
+            else:
+                q = q.right
+            if q is None:
+                return
+
+            if q.left is None:
+                if p is None:
+                    self._root = q.right
+                elif q is p.left:
+                    p.left = q.right
+                else:
+                    p.right = q.right
+                return
+            r = q.left
+            while r.right is not None:
+                r = r.right
+            r.right - q.right
+            if p is None:
+                self._root = q.left
+            elif p.left is q:
+                p.left = q.left
+            else:
+                p.right = q.left
+
+    def print(self):
+        for k, v in self.entries():
+            print(k, v)
+
     def entries(self):
         t, s = self._root, SStack()
         while t is not None or not s.is_empty():
@@ -139,18 +172,22 @@ class DictBinTree: #二叉排序树(字典)类
             yield t.data.value, t.data.value
             t = t.right
 
-    class Assoc:
-        def __init__(self, key, value):
-            self.key = key
-            self.value = value
+    def build_dictBinTree(entries):
+        dic = DictBinTree()
+        for k, v in entries():
+            dic.insert(k, v)
+        return dic
 
-        def __lt__(self, other):
-            return self.key < other.key
+class Assoc:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
 
-        def __le__(self, other):
-            return self.key < other.key or self.key == other.key
+    def __lt__(self, other):
+        return self.key < other.key
 
-        def __str__(self):
-            return "Assoc({0},{1})".format(self.key, self.value)
-        
-       
+    def __le__(self, other):
+        return self.key < other.key or self.key == other.key
+
+    def __str__(self):
+        return "Assoc({0},{1})".format(self.key, self.value)
