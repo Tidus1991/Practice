@@ -37,12 +37,11 @@ def QuickSort(arr):
         return less + pivotList + more
     
 
-def qsort(lists):
+def QuickSort1(lists):
     if not lists:
         return []
     else:
         pivot = lists[0]
         less = [x for x in lists     if x <  pivot]
         more = [x for x in lists[1:] if x >= pivot]
-        return qsort(less) + [pivot] + qsort(more)
-print(qsort(lists))
+        return QuickSort1(less) + [pivot] + QuickSort1(more)
