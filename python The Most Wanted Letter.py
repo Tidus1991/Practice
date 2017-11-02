@@ -10,7 +10,6 @@ import string
 
 r = '[’!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]+'
 
-
 def checkio(text):
     text = text.lower()
     text = text.replace(' ', '')
