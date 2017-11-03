@@ -5,7 +5,6 @@ Created on 2017/10/28 14:01
 @author: Tidus
 """
 
-
 class SStack():
     def __init__(self):
         self.elems = []
