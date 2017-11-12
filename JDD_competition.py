@@ -8,10 +8,10 @@ Created on Mon Aug 21 17:29:18 2017
 import pandas as pd
 from collections import Counter
 import time
-
+import numpy as np
 start = time.time()
 
-t_login = pd.read_csv('fin_notime.csv')
+t_login = pd.read_csv('test.csv')
 t_trade = pd.read_csv('after_trade.csv')
 login = pd.DataFrame(t_login.values)
 trade = pd.DataFrame(t_trade.values)
@@ -84,29 +84,105 @@ trade = pd.DataFrame(t_trade.values)
 
 
 
-#time
-# end = time.time()
-# print('waste time:',int(end - start),'second')
+
+
 
 
 
 #----------------------------------------------------#
            # data transformal and normalization
 
-#squre
-done = []
-device_change = []
-for i in range(1, len(login)):
-    if login[0][i] in done or login[0][i] != login[0][i-1]:
-        continue
-    device = []
-    while login[0][i] == login[0][i-1]:
-        device.append(login[2][i-1])
-        i += 1
-    device.append(login[2][i])
-    device_change.append([login[0][i], len(set(device)), len(device)])
+#device_change
+# start_index = 0
+# stop_index = 0
+# for i in range(0,len(login)):
+#     try:
+#         if login[0][i] == login[0][i+1]:
+#             stop_index += 1
+#         else:
+#             device_change = ((len(set(login[2][start_index:stop_index+1])))/(stop_index-start_index+1))\
+#                             -(len(set(login[2][start_index:stop_index + 1])))
+#             for i in range(start_index, stop_index+1):
+#                 login[8][i] = (round(device_change, 2))
+#             print('Series:',round(device_change, 2))
+#             stop_index = i + 1
+#             start_index = stop_index
+#     except:
+#         if stop_index == start_index:
+#             login[8][start_index] = 0
+#             print('End:',round(device_change, 2))
+#         device_change = (len(set(login[2][start_index:stop_index + 1]))) / (stop_index - start_index+1)\
+#                       -(len(set(login[2][start_index:stop_index + 1])))
+#         for i in range(start_index, stop_index+1):
+#             login[8][i] = (round(device_change, 2))
+#         print('End:',round(device_change, 2))
+#
+# end = time.time()
+# print('waste time:',round(end - start, 2),'second')
+
+# start = time.time()
+# for loop in range(5):
+# #    login.insert(9+loop,'%d'%(9+loop), 0)
+#     start_index = 0
+#     stop_index = 0
+#     for i in range(0,len(login)):
+#         try:
+#             if login[0][i] == login[0][i+1]:
+#                 stop_index += 1
+#             else:
+#                 temp = (Counter(login[2 + loop][start_index:stop_index + 1]).most_common(1)[0][1])
+#                 device_change = (temp - len(set(login[2 + loop][start_index:stop_index + 1])))\
+#                                        / (stop_index - start_index + 1) + temp / (stop_index - start_index + 1)
+#                 for j in range(start_index, stop_index+1):
+#                     login[9+loop][j] = (round(device_change, 2))
+#                 print('loop %d'%(loop+1),'Series:',round(device_change, 2))
+#                 stop_index = i + 1
+#                 start_index = stop_index
+#         except:
+#             if stop_index == start_index:
+#                 login[9+loop][start_index] = 0
+#                 print('loop %d'%(loop+1),'SigEnd:',round(0, 2))
+#                 break
+#             temp = (Counter(login[2 + loop][start_index:stop_index + 1]).most_common(1)[0][1])
+#             device_change = (temp - len(set(login[2 + loop][start_index:stop_index + 1])))\
+#                                        / (stop_index - start_index + 1) + temp / (stop_index - start_index + 1)
+#             for j in range(start_index, stop_index+1):
+#                 login[9+loop][j] = (round(device_change, 2))
+#             print('loop %d'%(loop+1),'SeqEnd:',round(device_change, 2))
+#
+# end = time.time()
+# print('--------------------\nwaste time:', round(end - start, 2),\
+#           'second, step %d complished\n--------------------' )
 
 
+#std
+start = time.time()
+start_index = 0
+stop_index = 0
+for i in range(0,len(login)):
+    try:
+        if login[0][i] == login[0][i+1]:
+            stop_index += 1
+        else:
+            std = np.std(login[1][start_index:stop_index + 1])
+            for j in range(start_index, stop_index+1):
+                login[14][j] = (round(std, 2))
+            print('loop 1','Series:',round(std, 2))
+            stop_index = i + 1
+            start_index = stop_index
+    except:
+        if stop_index == start_index:
+            login[14][start_index] = 0
+            print('loop 1','SigEnd:',round(0, 2))
+            break
+        std = np.std(login[1][start_index:stop_index + 1])
+        for j in range(start_index, stop_index+1):
+            login[14][j] = (round(std, 2))
+        print('loop 1','SeqEnd:',round(std, 2))
+
+end = time.time()
+print('--------------------\nwaste time:', round(end - start, 2),\
+          'second, step %d complished\n--------------------' )
 
 
 '''        
