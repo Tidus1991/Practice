@@ -5,12 +5,24 @@ Created on 2017/11/16 9:36
 @author: Tidus
 """
 from math import sqrt
-critics = {'Lisa Rose':{'Lady in the Water':2.5,'Snakes on a Plane':3.5,'Just My Luck':3.0,'Superman Returns':3.5,'You,Me and Dupree':2.5,'The Night Listener':3.0},
-           'Gene Seymour': {'Lady in the Water': 3.0, 'Snakes on a Plane': 3.5, 'Just My Luck': 1.5,'Superman Returns': 5.0, 'The Night Listener': 3.0,'You,Me and Dupree': 3.5},
-            'Michael Phillips': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.0, 'Just My Luck': 3.0,'Superman Returns': 3.5, 'The Night Listener':4.0},
-            'Claudia Puig': { 'Snakes on a Plane': 3.5, 'Just My Luck': 3.0,'Superman Returns': 4.0, 'The Night Listener':4.5},
-            'Mick LaSalle': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0, 'Just My Luck': 2.0,'Superman Returns': 3.0, 'The Night Listener':3.0,'You,Me and Dupree':2.0},
-            'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0, 'Just My Luck': 2.0,'Superman Returns': 5.0, 'The Night Listener':3.0,'You,Me and Dupree':3.5},
+critics = {'Lisa Rose':{'Lady in the Water':2.5,'Snakes on a Plane':3.5,'Just My Luck':3.0,
+                        'Superman Returns':3.5,'You,Me and Dupree':2.5,'The Night Listener':3.0},
+
+           'Gene Seymour': {'Lady in the Water': 3.0, 'Snakes on a Plane': 3.5, 'Just My Luck': 1.5,
+                            'Superman Returns': 5.0, 'The Night Listener': 3.0,'You,Me and Dupree': 3.5},
+
+            'Michael Phillips': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.0,
+                                 'Superman Returns': 3.5, 'The Night Listener':4.0},
+
+            'Claudia Puig': { 'Snakes on a Plane': 3.5, 'Just My Luck': 3.0,'Superman Returns': 4.0,
+                              'The Night Listener':4.5,'You,Me and Dupree':2.5},
+
+            'Mick LaSalle': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0, 'Just My Luck': 2.0,
+                             'Superman Returns': 3.0, 'The Night Listener':3.0,'You,Me and Dupree':2.0},
+
+            'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0, 'Superman Returns': 5.0,
+                              'The Night Listener':3.0,'You,Me and Dupree':3.5},
+
             'Toby': {'Snakes on a Plane': 4.5,'Superman Returns': 4.0, 'You,Me and Dupree':1.0}}
 
 #欧几里得距离
@@ -27,7 +39,7 @@ def sim_distance(prefs, person1, person2):
  sum_of_squares= sum([pow(prefs[person1][item]-prefs[person2][item],2)
                       for item in prefs[person1] if item in prefs[person2]])
 
- return 1/(1+sqrt(sum_of_squares))
+ return 1/(1+sum_of_squares)
 
 #皮尔逊相关度
 def sim_pearson(prefs, p1, p2):
@@ -84,3 +96,46 @@ def getRecommendations(prefs, person, similarity = sim_pearson):
  rankings.sort()
  rankings.reverse()
  return rankings
+
+def transformPrefs(prefs):
+	result = {}
+	for person in prefs:
+		for item in prefs[person]:
+			result.setdefault(item,{})
+			result[item][person] = prefs[person][item]
+	return result
+
+def calculateSimilarItems(prefs, n=10):
+	result = {}
+	itemPrefs = transformPrefs(prefs)
+	c = 0
+	for item in itemPrefs:
+		c += 1
+		if c%100 == 0:
+			print('%d / %d'%(c,len(itemPrefs)))
+		scores = topMatches(itemPrefs,item,n=n,similarity=sim_distance)
+		result[item] = scores
+	return result
+
+def getRecommendedItems(prefs,itemMatch,user):
+	userRatings = prefs[user]
+	scores = {}
+	totalSim = {}
+
+	for (item, rating) in userRatings.items():
+		for(similarity, item2) in itemMatch[item]:
+			if item2 in userRatings:
+				continue
+			scores.setdefault(item2, 0)
+			scores[item2] += similarity*rating
+
+			totalSim.setdefault(item2, 0)
+			totalSim[item2] += similarity
+
+		rankings = [(score/totalSim[item],item) for item, score in scores.items()]
+		print(rankings,'\n',totalSim)
+		print(scores)
+
+		rankings.sort()
+		rankings.reverse()
+		return rankings
