@@ -13,19 +13,15 @@ class MultinomialNB(NaiveBayes):
 			features = map(list, zip(*x))
 		else:
 			features = x.T
-
 		features = [set(feat) for feat in features]
 		feat_dics = [{_l:i for i, _l in enumerate(feats)} for feats in features]
 		label_dic = {_l:i for i, _l in enumerate(set(y))}
-
 		x = np.array([[feat_dics[i][_l] for i,_l in enumerate(sample)]for sample in x])
 		y = np.array([label_dic[yy] for yy in y])
-
 		cat_counter = np.bincount(y)
 		n_possibilities = [len(feats) for feats in features]
 		labels = [y == value for value in range(len(cat_counter))]
 		labelled_x = [x[ci].T for ci in labels]
-
 		self._x, self._y = x, y
 		self._labelled_x, self._labelled_zip = labelled_x, list(zip(labels, labelled_x))
 		(self._cat_counter, self._feat_dics, self._n_possibilities) = \
@@ -40,7 +36,6 @@ class MultinomialNB(NaiveBayes):
 			if sample_weight is None:
 				self._con_counter.append([np.bincount(xx[dim], minlength=_p)
 				                          for xx in self._labelled_x])
-
 			else:
 				self._con_counter.append([
 					np.bincount(xx[dim], weights=sample_weight[label] / sample_weight[label].mean(),
@@ -67,6 +62,7 @@ class MultinomialNB(NaiveBayes):
 		for j, char in enumerate(x):
 			x[j] = self._feat_dics[j][char]
 		return x
+	
 	def visualize(self):
 		import matplotlib.pyplot as plt
 		from pylab import mpl
