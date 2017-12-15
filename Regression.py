@@ -7,9 +7,7 @@ Created on 2017/11/23 10:48
 
 import numpy as np
 import matplotlib.pyplot as plt
-
 x, y = [], []
-
 for sample in open('Data/prices.txt'):
 	_x, _y=sample.split(',')
 	x.append(float(_x))
